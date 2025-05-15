@@ -3,10 +3,10 @@ requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
 [project.urls]
-Homepage = "PLUGIN_HOMEPAGE"
+Homepage = "https://github.com/QUARK-framework/QUARK-plugin-pvc"
 
 [project]
-name = "PLUGIN_NAME"
+name = "QUARK-plugin-pvc"
 version = "0.1"
 readme = "README.md"
 requires-python = ">=3.12"
