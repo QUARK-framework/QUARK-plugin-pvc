@@ -1,6 +1,8 @@
 from quark.plugin_manager import factory
 
-from quark_plugin_pvc.example_module import ExampleModule
+from quark_plugin_pvc.pvc_graph_provider import PvcGraphProvider
+from quark_plugin_pvc.pvc_qubo_mapping import PvcQuboMapping
+
 
 def register() -> None:
     """
@@ -10,4 +12,5 @@ def register() -> None:
 
     The "module_name" will later be used to refer to the module in the configuration file.
     """
-    factory.register("example_module", ExampleModule)
+    factory.register("pvc_graph_provider", PvcGraphProvider)
+    factory.register("pvc_qubo_mapping", PvcQuboMapping)
