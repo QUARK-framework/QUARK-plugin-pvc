@@ -16,6 +16,8 @@ import pickle
 
 import networkx as nx
 
+# TODO How to create the reference graph if I want to run a benchmark with it?
+
 # Create the original graph as a MultiDiGraph
 graph = nx.MultiDiGraph()
 

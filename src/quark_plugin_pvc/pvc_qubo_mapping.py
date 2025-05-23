@@ -11,12 +11,18 @@ from quark.interface_types.other import Other
 
 @dataclass
 class PvcQuboMapping(Core):
-    """A module for mapping a graph to a QUBO formalism for the TSP problem."""
+    """A module for mapping a graph to a QUBO formalism for the PVC problem."""
 
     lagrange_factor: float
 
     @override
     def preprocess(self, data: Graph) -> Result:
+        '''
+        Preprocess the graph data to create a QUBO representation of the PVC problem.
+
+        :param data: Graph data containing the problem to be solved.
+        :return: A QUBO representation of the problem.
+        '''
         # Inspired by https://dnx.readthedocs.io/en/latest/_modules/dwave_networkx/algorithms/tsp.html
 
         self._graph = data.as_nx_graph()
@@ -53,7 +59,8 @@ class PvcQuboMapping(Core):
         # We need to implement the following constrains:
         # Only visit 1 node of each seam
         # Don`t visit nodes twice (even if their config/tool is different)
-        # We only need to visit base node at the once since this path from last node to base node is unique anyway
+        # Only visit a single node in a single timestep
+        # We only need to visit base node once since this path from last node to base node is unique anyway
 
         # Constraint to only visit a node/seam once
         for node in problem:  # for all nodes in the graph
@@ -176,6 +183,12 @@ class PvcQuboMapping(Core):
 
     @override
     def postprocess(self, data: Other) -> Result:
+        """
+        Postprocess the QUBO solution to extract the route.
+
+        :param data: The QUBO solution data.
+        :return: The parsed route as a Data object.
+        """
         d = data.data
 
         nodes = list(self._graph.nodes())
