@@ -17,12 +17,12 @@ class PvcQuboMapping(Core):
 
     @override
     def preprocess(self, data: Graph) -> Result:
-        '''
+        """
         Preprocess the graph data to create a QUBO representation of the PVC problem.
 
         :param data: Graph data containing the problem to be solved.
         :return: A QUBO representation of the problem.
-        '''
+        """
         # Inspired by https://dnx.readthedocs.io/en/latest/_modules/dwave_networkx/algorithms/tsp.html
 
         self._graph = data.as_nx_graph()
