@@ -16,11 +16,14 @@ import logging
 import os
 import pickle
 from dataclasses import dataclass
+from pathlib import Path
 from typing import override
 
 import networkx as nx
 from quark.core import Core, Data, Result
 from quark.interface_types import Graph, Other
+
+from quark_plugin_pvc.createReferenceGraph import create_graph
 
 
 @dataclass
@@ -52,8 +55,15 @@ class PvcGraphProvider(Core):
         :return: Data object containing the graph
         """
         # Read in the original graph
+
+        data_path = os.path.join(os.path.dirname(__file__), "data")
+        graph_path = os.path.join(data_path, "reference_graph.gpickle")
+
+        if not Path(graph_path).is_file():
+            create_graph(data_path)
+
         with open(
-            os.path.join(os.path.dirname(__file__), "data", "reference_graph.gpickle"),
+            graph_path,
             "rb",
         ) as file:
             graph = pickle.load(file)
