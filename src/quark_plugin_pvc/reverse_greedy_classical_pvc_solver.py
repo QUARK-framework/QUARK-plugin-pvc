@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import override
 
 from quark.core import Core, Data, Result
 from quark.interface_types import Graph, Other
@@ -6,6 +7,7 @@ from quark.interface_types import Graph, Other
 
 @dataclass
 class ReverseGreedyClassicalPvcSolver(Core):
+    @override
     def preprocess(self, data: Graph) -> Result:
         graph = data.as_nx_graph()
         # Need to deep copy since we are modifying the graph in this function.
@@ -52,6 +54,7 @@ class ReverseGreedyClassicalPvcSolver(Core):
 
         return Data(None)
 
+    @override
     def postprocess(self, data: None) -> Result:
         filtered_tour = [x[0] for x in self._tour.items() if x[1] == 1]
         filtered_tour.sort(key=lambda x: x[-1])
