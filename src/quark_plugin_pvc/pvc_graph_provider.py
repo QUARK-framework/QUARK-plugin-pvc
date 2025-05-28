@@ -16,11 +16,14 @@ import logging
 import os
 import pickle
 from dataclasses import dataclass
+from pathlib import Path
 from typing import override
 
 import networkx as nx
 from quark.core import Core, Data, Result
 from quark.interface_types import Graph, Other
+
+from quark_plugin_pvc.createReferenceGraph import create_graph
 
 
 @dataclass
@@ -36,7 +39,7 @@ class PvcGraphProvider(Core):
     apply the material. It is related to TSP, but different and even more complex in some aspects.
 
     The problem of determining the optimal route for robots to traverse all seams shares similarities
-    with Traveling Salesman Problem (TSP), as it involves finding the shortest possible route to
+    with Traveling Salesperson Problem (TSP), as it involves finding the shortest possible route to
     visit multiple locations. However, it introduces additional complexities, such as different tool
     and configuration requirements for each seam, making it an even more challenging problem to solve.
     """
@@ -45,9 +48,22 @@ class PvcGraphProvider(Core):
 
     @override
     def preprocess(self, data: None) -> Result:
+        """
+        Preprocesses the data for the PVC problem.
+
+        :param data: None
+        :return: Data object containing the graph
+        """
         # Read in the original graph
+
+        data_path = os.path.join(os.path.dirname(__file__), "data")
+        graph_path = os.path.join(data_path, "reference_graph.gpickle")
+
+        if not Path(graph_path).is_file():
+            create_graph(data_path)
+
         with open(
-            os.path.join(os.path.dirname(__file__), "data", "reference_graph.gpickle"),
+            graph_path,
             "rb",
         ) as file:
             graph = pickle.load(file)
