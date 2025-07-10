@@ -4,6 +4,7 @@ uv.lock
 .idea
 *.pkl
 *.png
+*.gpickle
 # === Custom files ===
 
 
